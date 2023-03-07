@@ -1,0 +1,31 @@
+html {
+    font-family: 'Roboto', sans-serif;
+    padding-top: 50px;
+}
+.textcenter{
+    text-align: center;
+}
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.pagetitle{
+    display: inline-block;
+}
+select{
+    width: 100%;
+}
+input[type="submit"]{
+    margin-top: 25px;
+}
+
+table{
+    border-collapse: separate;
+}
+input.error{
+    border-color: red;
+}
+span.error{
+    color: red;
+}
