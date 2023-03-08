@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="68d8949b-2ba6-4d4f-8002-0b75d8f39a14" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TP_English_Test/command.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/BERARD_DOMAS_TP_English/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/BERARD_DOMAS_TP_English/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/english_test/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/templates/fin.html" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/templates/fin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/templates/inscription.html" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/templates/inscription.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/templates/jeu.html" beforeDir="false" afterPath="$PROJECT_DIR$/BERARD_DOMAS_TP_English/templates/jeu.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2LSYM41hqqSVKNJnY6jAWoAg6Ft" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/jaded/PCI Dropbox/Jade DOMASVASSEROT/EPSI_COURS/B3/Cours/Python_Nicolas_CHEVALIER/Django/TP_Noté_BERARD_DOMAS/TP_English_Test",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jaded\PCI Dropbox\Jade DOMASVASSEROT\EPSI_COURS\B3\Cours\Python_Nicolas_CHEVALIER\Django\TP_Noté_BERARD_DOMAS\TP_English_Test" />
+      <recent name="C:\Users\jaded\PCI Dropbox\Jade DOMASVASSEROT\EPSI_COURS\B3\Cours\Python_Nicolas_CHEVALIER\Django\TP_Noté_BERARD_DOMAS\BERARD_DOMAS_TP_English\english_test" />
+      <recent name="C:\Users\jaded\PCI Dropbox\Jade DOMASVASSEROT\EPSI_COURS\B3\Cours\Python_Nicolas_CHEVALIER\Django\TP_Noté_BERARD_DOMAS\BERARD_DOMAS_TP_English\templates" />
+      <recent name="C:\Users\jaded\PCI Dropbox\Jade DOMASVASSEROT\EPSI_COURS\B3\Cours\Python_Nicolas_CHEVALIER\Django\TP_Noté_BERARD_DOMAS\BERARD_DOMAS_TP_English\static" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="68d8949b-2ba6-4d4f-8002-0b75d8f39a14" name="Changes" comment="" />
+      <created>1675865899532</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1675865899532</updated>
+      <workItem from="1675865901096" duration="5674000" />
+      <workItem from="1678198615518" duration="9397000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
