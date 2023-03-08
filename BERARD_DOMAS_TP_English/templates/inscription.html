@@ -16,48 +16,15 @@
             <br />
             <a href="/index">Connexion</a>
             <br />
-            <form method="post" action="inscription" class="center">
-                <table>
-                    <tr>
-                        <td><label for="nom">Nom: </label></td>
-                        <td><input type="text" id="nom" name="nom" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="prenom">Prénom: </label></td>
-                        <td><input type="text" id="prenom" name="prenom" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="email">Email: </label></td>
-                        <td><input type="email" id="email" name="email" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="pwd">Mot de passe: </label></td>
-                        <td><input type="password" id="password" name="password" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <select name="ville">
-                                <option value="1">L ABERGEMENT CLEMENCIAT</option>
-                                <option value="2">L ABERGEMENT DE VAREY</option>
-                                <option value="3">AMAREINS</option>
-                                <option value="4">AMBERIEU EN BUGEY</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: center"><input type="submit" value="Valider" /></td>
-                    </tr>
-                </table>
-            </form>
+           <form method="post" action="{%  url 'inscription' %}" novalidate>
+            {%  csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Inscription" class="submitBtn">
+         </form>
         </div>
     </div>
     <footer class="center" id="footer">
-        Blog réalisé par
+        Blog réalisé par Jade DOMAS-VASSEROT et Erine BERARD
     </footer>
 </body>
 

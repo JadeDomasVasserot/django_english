@@ -5,31 +5,18 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <div class="textcenter">
       <h1>Bienvenue sur English Test !</h1>
       <br />
-      <form method="post" action="index" class="center">
-        <table>
-          <tr>
-            <td><label for="email">Email: </label></td>
-            <td><input type="text" id="email" name="email" /></td>
-          </tr>
-          <tr>
-            <td><label for="pwd">Mot de passe: </label></td>
-            <td><input type="password" id="password" name="password" /></td>
-          </tr>
-          <tr>
-            <td colspan="2" style="color: red;">Erreurs</td>
-          </tr>
-          <tr>
-            <td colspan="2" style="text-align: center;"><input type="submit" value="Connexion" /></td>
-          </tr>
-        </table>
-      </form>
+      <form method="post" action="{%  url 'accueil' %}" novalidate>
+            {%  csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Connexion" class="submitBtn">
+         </form>
       <br />
       <a href="/inscription">Inscription</a>
       <br />
@@ -54,9 +41,9 @@
       </div>
     </div>
   </div>
-  <footer class="center" id="footer">
-    Blog réalisé par
-  </footer>
+ <footer class="center" id="footer">
+        Blog réalisé par Jade DOMAS-VASSEROT et Erine BERARD
+    </footer>
 </body>
 
 </html>

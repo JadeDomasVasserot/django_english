@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -15,32 +15,21 @@
 
             <h1 class="pagetitle">English Test Nicolas, meilleur score : 90 verbes</h1>
             <br />
-            <a href="/deconnexion">Déconnexion</a>
+            <a href="/index">Déconnexion</a>
             <br />
-            <form method="post" action="jeu" class="center">
-                <table>
-                    <tr>
-                        <td colspan="3" style="text-align: center">Question 1 : Le verbe demeurer
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            abide
-                        </td>
-                        <td><input name="preterit" type="text" /></td>
-                        <td><input name="participe_passe" type="text" /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="text-align: center">
-                            <input type="submit" value="Envoyer" />
-                        </td>
-                    </tr>
-                </table>
+            <br />
+             <form method="post" action="{%  url 'jeu' %}" novalidate>
+
+                        <h4 colspan="3" style="text-align: center">Question {{ counter }} : Le verbe {{ verb.traduction }} -> {{ verb.baseVerbale }}
+                        </h4>
+            {%  csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Valider" class="submitBtn">
             </form>
         </div>
     </div>
-    <footer class="center" id="footer">
-        Blog réalisé par
+   <footer class="center" id="footer">
+        Blog réalisé par Jade DOMAS-VASSEROT et Erine BERARD
     </footer>
 </body>
 
