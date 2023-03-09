@@ -59,14 +59,41 @@ def jeu(request, idPartie):
     # Set up the initial score and timer values
     score = 0
     
-    verb = choice(list(Verbe.objects.all()))# Génère un verbe aléatoire
-    
     try:
         partie = Partie.objects.get(pk=idPartie)
+        print(partie.id)
     except Partie.DoesNotExist:
-        return HttpResponseNotFound("Partie non trouvée")
+        return HttpResponseNotFound("Partie non trouvée") 
+        
+    if request.method == 'POST':
+        form = GameForm(request.POST)
+        if form.is_valid():
+            preterit = form.cleaned_data['preterit']
+            participePasse = form.cleaned_data['participePasse']
+            
+            # Recupère l'instance de question 
+            question = Question.objects.filter(idPartie=partie.id).order_by('-dateEnvoi').first()
+            
+            # Calcule le temps de différencce 
+            # time_diff = timezone.now() - timezone.make_aware(question.dateEnvoi, timezone.get_current_timezone())
+            print (preterit),
+            print (question.idVerbe.preterit)
+            
+            # Vérification des conditions - and time_diff <= timedelta(seconds=60)
+            if preterit == question.idVerbe.preterit and participePasse == question.idVerbe.participePasse :
+                score += 1
+                # Modification de question
+                question.reponsePreterit = preterit
+                question.reponseParticipePasse = participePasse
+                question.dateReponse = datetime.now()
+                question.save()
+            else:
+                # Redirect vers la page de fin 
+                return redirect('/fin/{}'.format(partie.id))
     
-    # Initialise les valeur de question 
+    verb = choice(list(Verbe.objects.all()))# Génère un verbe aléatoire
+    
+        # Initialise les valeur de question 
     question = Question(
         idPartie = partie,   
         idVerbe = verb, 
@@ -77,38 +104,18 @@ def jeu(request, idPartie):
     )  
     Question.save(question)
     
-    form = GameForm()  
-        
-    if request.method == 'POST':
-        form = GameForm(request.POST)
-        if form.is_valid():
-            preterit = form.cleaned_data['preterit']
-            participePasse = form.cleaned_data['participePasse']
-            
-            # Recupère l'instance de question 
-            # question = Question.objects.get(pk=request.POST['question_id'])
-            
-            # Calcule le temps de différencce 
-            # time_diff = timezone.now() - timezone.make_aware(question.dateEnvoi, timezone.get_current_timezone())
-            
-            # Vérification des conditions - and time_diff <= timedelta(seconds=60)
-            if preterit == verb.preterit and participePasse == verb.participePasse :
-                score += 1
-                
-                # Modification de question
-                question.reponsePreterit = preterit
-                question.reponseParticipePasse = participePasse
-                question.dateReponse = datetime.now()
-                question.save()
-                
-                # Choisis un nouveaux nombre aléatoire 
-                verb = choice(list(Verbe.objects.all()))
-            else:
-                # Redirect vers la page de fin 
-                return redirect('/jeu/{}'.format(partie.id))
+    form = GameForm() 
     
-    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': score + 1, 'question_id': question.id})
+    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': score + 1, 'question_id': question.id, 'partie_id': partie.id})
 
 
-def fin(request):
-    return render(request, 'fin.html')
+def fin(request, idPartie):
+    try:
+        partie = Partie.objects.get(pk=idPartie)
+        print(partie.id)
+    except Partie.DoesNotExist:
+        return HttpResponseNotFound("Partie non trouvée") 
+    
+    question = Question.objects.filter(idPartie=partie.id).order_by('-dateEnvoi').first()
+    
+    return render(request, 'fin.html', {'joueur': partie.idJoueur, 'verbe': question.idVerbe})

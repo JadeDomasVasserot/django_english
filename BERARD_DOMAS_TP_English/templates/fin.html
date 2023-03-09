@@ -13,8 +13,8 @@
     <div class="container">
         <div class="textcenter">
 
-            <h1 class="pagetitle">English Test Nicolas, meilleur score:
-                90 verbes
+            <h1 class="pagetitle">English Test {{ joueur.prenom }}, meilleur score:
+                {{ joueur.niveau }}
             </h1>
             <br />
             <a href="/index">Déconnexion</a>
@@ -27,18 +27,18 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3" style="text-align: center">Question 10 : Le verbe souffler
+                        <td colspan="3" style="text-align: center">Question 10 : Le verbe {{ verbe.traduction }}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            blow
+                            {{ verbe.baseVerbale }}
                         </td>
                         <td>
-                            <span>blown</span>
+                            <span>{{ verbe.preterit }}</span>
                         </td>
                         <td>
-                            <span>blew</span>
+                            <span>{{ verbe.participePasse }}</span>
                         </td>
                     </tr>
                     <tr>
