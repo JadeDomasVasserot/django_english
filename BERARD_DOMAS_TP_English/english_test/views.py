@@ -17,7 +17,7 @@ local_tz = pytz.timezone('Europe/Paris')
 
 # Create your views here.
 def accueil(request):
-    bestUser = Joueur.objects.order_by('-niveau').first()
+    bestUser = Joueur.objects.order_by('niveau').all()[:5]
     if request.method == 'POST':
         form = ConnexionForm(request.POST)
         if form.is_valid():
@@ -25,9 +25,15 @@ def accueil(request):
             motDePasse = form.cleaned_data['motDePasse']
             user = Joueur.objects.filter(email=email, motDePasse=motDePasse).first()
             if user is not None:
-                partie = Partie(idJoueur_id=user.id, score= 0)
-                Partie.save(partie)
-                return redirect('/jeu/{}'.format(partie.id))
+                partie = Partie(idJoueur_id=user.id)
+                partie.save()
+                last_game = Partie.objects.filter(idJoueur=user.id).order_by('-id').first()
+                if last_game:
+                    # Do something with the last game object, e.g. redirect to the game view
+                    return redirect('jeu', game_id=last_game.id)
+                else:
+                    # The user has not played any games yet, do something else
+                    return redirect('index')
             else:
                 form.add_error(None, "L'adresse email ou le mot de passe est incorrect.")
 
