@@ -27,7 +27,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3" style="text-align: center">Question 10 : Le verbe {{ verbe.traduction }}
+                        <td colspan="3" style="text-align: center">Question {{ numero }} : Le verbe {{ verbe.traduction }}
                         </td>
                     </tr>
                     <tr>
@@ -48,7 +48,10 @@
                     </tr>
                     <tr>
                         <td colspan="3" style="text-align: center">
-                            <input type="submit" value="Recommencer" action="{% url 'jeu' partie2.id %}"/>
+                            <form method="get" action="{% url 'jeu' partie2Id %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Recommencer">
+                            </form>
                         </td>
                     </tr>
                 </table>

@@ -25,12 +25,12 @@ def accueil(request):
             motDePasse = form.cleaned_data['motDePasse']
             user = Joueur.objects.filter(email=email, motDePasse=motDePasse).first()
             if user is not None:
-                partie = Partie(idJoueur_id=user.id)
+                partie = Partie(idJoueur_id=user.id, score=0)
                 partie.save()
                 last_game = Partie.objects.filter(idJoueur=user.id).order_by('-id').first()
                 if last_game:
                     # Do something with the last game object, e.g. redirect to the game view
-                    return redirect('jeu', game_id=last_game.id)
+                    return redirect('/jeu/{}'.format(partie.id))
                 else:
                     # The user has not played any games yet, do something else
                     return redirect('index')
@@ -66,35 +66,35 @@ def inscription(request):
 
 
 def jeu(request, idPartie):
-    
     try:
         partie = Partie.objects.get(pk=idPartie)
+        user = Joueur.objects.get(pk=partie.idJoueur_id)
     except Partie.DoesNotExist:
-        return HttpResponseNotFound("Partie non trouvée") 
-        
+        return HttpResponseNotFound("Partie non trouvée")
+
     if request.method == 'POST':
         form = GameForm(request.POST)
         if form.is_valid():
             preterit = form.cleaned_data['preterit']
             participePasse = form.cleaned_data['participePasse']
-            
+
             # Recupère l'instance de question 
             question = Question.objects.filter(idPartie=partie.id).order_by('-dateEnvoi').first()
-            
+
             # Calcule le temps de différencce 
             time_diff = datetime.now(tz=local_tz).astimezone(pytz.utc) - question.dateEnvoi
             time_diff = int(time_diff.total_seconds())
-            
+
             # Vérification des conditions - and time_diff <= timedelta(seconds=60)
-            if preterit == question.idVerbe.preterit and participePasse == question.idVerbe.participePasse and time_diff <= 60 :
+            if preterit == question.idVerbe.preterit and participePasse == question.idVerbe.participePasse and time_diff <= 60:
                 score += 1
                 # Modification de question
                 question.reponsePreterit = preterit
                 question.reponseParticipePasse = participePasse
                 question.dateReponse = datetime.now()
                 question.save()
-                
-                partie.score +=1
+
+                partie.score += 1
                 partie.save()
             else:
                 if partie.idJoueur.niveau == partie.score :
@@ -102,23 +102,23 @@ def jeu(request, idPartie):
                 
                 # Redirect vers la page de fin 
                 return redirect('/fin/{}'.format(partie.id))
-    
-    verb = choice(list(Verbe.objects.all()))# Génère un verbe aléatoire
-    
-        # Initialise les valeur de question 
+
+    verb = choice(list(Verbe.objects.all()))  # Génère un verbe aléatoire
+
+    # Initialise les valeur de question
     question = Question(
-        idPartie = partie,   
-        idVerbe = verb, 
-        reponsePreterit = '', 
-        reponseParticipePasse = '', 
-        dateEnvoi=datetime.now(tz=local_tz).astimezone(pytz.utc), 
-        dateReponse = ''
-    )  
+        idPartie=partie,
+        idVerbe=verb,
+        reponsePreterit='',
+        reponseParticipePasse='',
+        dateEnvoi=datetime.now(tz=local_tz).astimezone(pytz.utc),
+        dateReponse=''
+    )
     Question.save(question)
-    
-    form = GameForm() 
-    
-    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': partie.score+1, 'question_id': question.id, 'partie_id': partie.id})
+
+    form = GameForm()
+    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': partie.score+1, 'question_id': question.id,
+                                        'partie_id': partie.id, 'user': user})
 
 
 def fin(request, idPartie):
@@ -126,11 +126,14 @@ def fin(request, idPartie):
         partie = Partie.objects.get(pk=idPartie)
         print(partie.id)
     except Partie.DoesNotExist:
-        return HttpResponseNotFound("Partie non trouvée") 
-    
+        return HttpResponseNotFound("Partie non trouvée")
+
     question = Question.objects.filter(idPartie=partie.id).order_by('-dateEnvoi').first()
+
+    partie2 = Partie(idJoueur_id=partie.idJoueur.id, score=0)
+    partie2.save()
     
-    partie2 = Partie(idJoueur_id=partie.idJoueur, score= 0)
-    Partie.save(partie2)
-    
-    return render(request, 'fin.html', {'joueur': partie.idJoueur, 'verbe': question.idVerbe, 'partie2': partie2, 'counter': partie.score})
+    print ('Partie = ', partie2.id)
+
+    return render(request, 'fin.html',
+                  {'joueur': partie.idJoueur, 'verbe': question.idVerbe, 'partie2Id': partie2.id, 'counter': partie.score, 'numero': partie.score + 1 })
