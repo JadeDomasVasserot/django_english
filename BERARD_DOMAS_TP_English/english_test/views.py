@@ -91,6 +91,9 @@ def jeu(request, idPartie):
                 partie.score +=1
                 partie.save()
             else:
+                if partie.idJoueur.niveau == partie.score :
+                    partie.idJoueur.niveau = partie.score
+                
                 # Redirect vers la page de fin 
                 return redirect('/fin/{}'.format(partie.id))
     
@@ -109,7 +112,7 @@ def jeu(request, idPartie):
     
     form = GameForm() 
     
-    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': partie.score, 'question_id': question.id, 'partie_id': partie.id})
+    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': partie.score+1, 'question_id': question.id, 'partie_id': partie.id})
 
 
 def fin(request, idPartie):

@@ -43,12 +43,12 @@
                     </tr>
                     <tr>
                         <td colspan="3">
-                            Votre score est de 10
+                            Votre score est de {{ counter }}
                         </td>
                     </tr>
                     <tr>
                         <td colspan="3" style="text-align: center">
-                            <input type="submit" value="Recommencer" action="{% url 'jeu' partie_id %}"/>
+                            <input type="submit" value="Recommencer" action="{% url 'jeu' partie2.id %}"/>
                         </td>
                     </tr>
                 </table>
