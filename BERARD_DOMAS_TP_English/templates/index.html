@@ -14,7 +14,7 @@
       <br />
       <form method="post" action="{%  url 'accueil' %}" novalidate>
             {%  csrf_token %}
-            {{ form.as_p }}
+            {{ form.as_p}}
             <input type="submit" value="Connexion" class="submitBtn">
          </form>
       <br />
@@ -31,10 +31,10 @@
           </tr>
           <tr>
             <td>
-              Nicolas
+                {{ bestUser.nom }}, {{ bestUser.prenom }}
             </td>
             <td>
-              90 verbes
+                {{bestUser.niveau }} verbes
             </td>
           </tr>
         </table>

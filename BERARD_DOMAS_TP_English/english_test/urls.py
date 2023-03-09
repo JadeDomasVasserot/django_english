@@ -6,6 +6,6 @@ from . import views
 urlpatterns = [
     path('index/', views.accueil, name="accueil"),
     path('inscription/', views.inscription, name="inscription"),
-    path('jeu/<int:id>/', views.jeu, name="jeu"),
-    path('fin/', views.fin, name="fin"),
+    path('jeu/<int:idPartie>/', views.jeu, name="jeu"),
+    path('fin/<int:idPartie>/', views.fin, name="fin"),
 ]
