@@ -17,7 +17,7 @@ local_tz = pytz.timezone('Europe/Paris')
 
 # Create your views here.
 def accueil(request):
-    bestUser = Joueur.objects.order_by('niveau').all()[:5]
+    bestUser = Joueur.objects.all().order_by('-niveau')[:5]
     if request.method == 'POST':
         form = ConnexionForm(request.POST)
         if form.is_valid():

@@ -17,7 +17,7 @@ class Joueur(models.Model):
     prenom = models.CharField(max_length=100)
     motDePasse = models.CharField(max_length=20)
     idVille = models.ForeignKey('Ville', on_delete=models.PROTECT)
-    niveau = models.CharField(max_length=100)
+    niveau = models.IntegerField()
 
     def __str__(self):
         return self
