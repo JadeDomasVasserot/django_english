@@ -20,14 +20,14 @@ class Joueur(models.Model):
     niveau = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nom
+        return self
 
 
 class Partie(models.Model):
     idJoueur = models.ForeignKey('Joueur', on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.idJoueur
+        return self
 
 
 class Question(models.Model):
@@ -41,7 +41,7 @@ class Question(models.Model):
                                        verbose_name="date de réponse")  # date et heure
 
     def __str__(self):
-        return self.reponsePreterit
+        return self
 
 
 class Verbe(models.Model):
@@ -51,4 +51,5 @@ class Verbe(models.Model):
     traduction = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.baseVerbale
+        return self
+    

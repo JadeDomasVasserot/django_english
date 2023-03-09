@@ -1,9 +1,10 @@
 from random import choice
+from datetime import datetime, timedelta
 
 from django.shortcuts import render, redirect
 
 from .form import InscriptionForm, ConnexionForm, GameForm
-from .models import Joueur, Ville, Verbe
+from .models import Joueur, Ville, Verbe, Partie, Question
 
 
 # Create your views here.
@@ -15,9 +16,12 @@ def accueil(request):
             email = form.cleaned_data['email']
             motDePasse = form.cleaned_data['motDePasse']
             user = Joueur.objects.filter(motDePasse=motDePasse, email=email)
+            
+            partie = Partie(idJoueur = 1)
+            partie.save()
 
             if user is not None:
-                return redirect('jeu')
+                return redirect('jeu/'+ str(partie.id))
 
     else:
         form = ConnexionForm()
@@ -36,39 +40,62 @@ def inscription(request):
             city = form.cleaned_data['idVille_id'].id
             conf_mdp = form.cleaned_data['conf_mdp']
             joueur = Joueur(email=email, nom=nom, prenom=prenom, motDePasse=motDePasse, niveau=1, idVille_id=city)
-            Joueur.save(joueur)
+            joueur.save()
             return redirect('accueil')
     else:
         form = InscriptionForm()
     return render(request, 'inscription.html', {'form': form})
 
 
-def jeu(request):
+def jeu(request, idPartie):
+    
     # Set up the initial score and timer values
     score = 0
-    remaining_time = 60
-    # Generate a random verb from the list of irregular verbs
-    verb = choice(list(Verbe.objects.all()))
+    
+    verb = choice(list(Verbe.objects.all()))# Génère un verbe aléatoire
+    
+    # Initialise les valeur de question 
+    question = Question(
+        idPartie = idPartie, 
+        idVerbe = verb.id, 
+        reponsePreterit = '', 
+        reponseParticipePasse = '', 
+        dateEnvoi = datetime.now(), 
+        dateReponse = ''
+    )  
+    Question.save(question)
+    
+    form = GameForm()  
+        
     if request.method == 'POST':
         form = GameForm(request.POST)
         if form.is_valid():
-
-            print(1)
             preterit = form.cleaned_data['preterit']
-            print(preterit)
             participePasse = form.cleaned_data['participePasse']
-            print(participePasse)
-            print(verb.preterit)
-            if preterit == verb.preterit and participePasse == verb.participePasse:
-                print(2)
+            
+            # Recupère l'instance de question 
+            # question = Question.objects.get(pk=request.POST['question_id'])
+            
+            # Calcule le temps de différencce 
+            time_diff = datetime.now() - question.dateEnvoi
+            
+            # Vérification des conditions 
+            if preterit == verb.preterit and participePasse == verb.participePasse and time_diff <= timedelta(seconds=60):
                 score += 1
+                
+                # Modification de question
+                question.reponsePreterit = preterit
+                question.reponseParticipePasse = participePasse
+                question.dateReponse = datetime.now()
+                question.save()
+                
+                # Choisis un nouveaux nombre aléatoire 
+                verb = choice(list(Verbe.objects.all()))
             else:
-                print(3)
+                # Redirect vers la page de fin 
                 return redirect('fin')
-
-    else:
-        form = GameForm()
-    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': score + 1})
+    
+    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': score + 1, 'question_id': question.id})
 
 
 def fin(request):
