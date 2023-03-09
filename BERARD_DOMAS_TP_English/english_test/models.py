@@ -25,6 +25,7 @@ class Joueur(models.Model):
 
 class Partie(models.Model):
     idJoueur = models.ForeignKey('Joueur', on_delete=models.PROTECT)
+    score = models.IntegerField()
 
     def __str__(self):
         return self

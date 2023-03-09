@@ -2,6 +2,8 @@ from random import choice
 from datetime import datetime, timedelta
 from django.http import HttpResponseNotFound
 
+import pytz
+
 from django.utils import timezone
 
 from django.core.exceptions import ValidationError
@@ -9,6 +11,8 @@ from django.shortcuts import render, redirect
 
 from .form import InscriptionForm, ConnexionForm, GameForm
 from .models import Joueur, Ville, Verbe, Partie, Question
+
+local_tz = pytz.timezone('Europe/Paris')
 
 
 # Create your views here.
@@ -21,7 +25,7 @@ def accueil(request):
             motDePasse = form.cleaned_data['motDePasse']
             user = Joueur.objects.filter(email=email, motDePasse=motDePasse).first()
             if user is not None:
-                partie = Partie(idJoueur_id=user.id)
+                partie = Partie(idJoueur_id=user.id, score= 0)
                 Partie.save(partie)
                 return redirect('/jeu/{}'.format(partie.id))
             else:
@@ -56,12 +60,9 @@ def inscription(request):
 
 
 def jeu(request, idPartie):
-    # Set up the initial score and timer values
-    score = 0
     
     try:
         partie = Partie.objects.get(pk=idPartie)
-        print(partie.id)
     except Partie.DoesNotExist:
         return HttpResponseNotFound("Partie non trouvée") 
         
@@ -75,18 +76,20 @@ def jeu(request, idPartie):
             question = Question.objects.filter(idPartie=partie.id).order_by('-dateEnvoi').first()
             
             # Calcule le temps de différencce 
-            # time_diff = timezone.now() - timezone.make_aware(question.dateEnvoi, timezone.get_current_timezone())
-            print (preterit),
-            print (question.idVerbe.preterit)
+            time_diff = datetime.now(tz=local_tz).astimezone(pytz.utc) - question.dateEnvoi
+            time_diff = int(time_diff.total_seconds())
             
             # Vérification des conditions - and time_diff <= timedelta(seconds=60)
-            if preterit == question.idVerbe.preterit and participePasse == question.idVerbe.participePasse :
+            if preterit == question.idVerbe.preterit and participePasse == question.idVerbe.participePasse and time_diff <= 60 :
                 score += 1
                 # Modification de question
                 question.reponsePreterit = preterit
                 question.reponseParticipePasse = participePasse
                 question.dateReponse = datetime.now()
                 question.save()
+                
+                partie.score +=1
+                partie.save()
             else:
                 # Redirect vers la page de fin 
                 return redirect('/fin/{}'.format(partie.id))
@@ -99,14 +102,14 @@ def jeu(request, idPartie):
         idVerbe = verb, 
         reponsePreterit = '', 
         reponseParticipePasse = '', 
-        dateEnvoi = datetime.now(), 
+        dateEnvoi=datetime.now(tz=local_tz).astimezone(pytz.utc), 
         dateReponse = ''
     )  
     Question.save(question)
     
     form = GameForm() 
     
-    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': score + 1, 'question_id': question.id, 'partie_id': partie.id})
+    return render(request, 'jeu.html', {'form': form, 'verb': verb, 'counter': partie.score, 'question_id': question.id, 'partie_id': partie.id})
 
 
 def fin(request, idPartie):
@@ -118,4 +121,7 @@ def fin(request, idPartie):
     
     question = Question.objects.filter(idPartie=partie.id).order_by('-dateEnvoi').first()
     
-    return render(request, 'fin.html', {'joueur': partie.idJoueur, 'verbe': question.idVerbe})
+    partie2 = Partie(idJoueur_id=partie.idJoueur, score= 0)
+    Partie.save(partie2)
+    
+    return render(request, 'fin.html', {'joueur': partie.idJoueur, 'verbe': question.idVerbe, 'partie2': partie2, 'counter': partie.score})
