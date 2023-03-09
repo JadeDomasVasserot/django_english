@@ -1,27 +1,31 @@
 from random import choice
 
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 
 from .form import InscriptionForm, ConnexionForm, GameForm
-from .models import Joueur, Ville, Verbe
+from .models import Joueur, Ville, Verbe, Partie
 
 
 # Create your views here.
 def accueil(request):
+    bestUser = Joueur.objects.order_by('-niveau').first()
     if request.method == 'POST':
         form = ConnexionForm(request.POST)
-
         if form.is_valid():
             email = form.cleaned_data['email']
             motDePasse = form.cleaned_data['motDePasse']
-            user = Joueur.objects.filter(motDePasse=motDePasse, email=email)
-
+            user = Joueur.objects.filter(email=email, motDePasse=motDePasse).first()
             if user is not None:
+                partie = Partie(idJoueur_id=user.id)
+                Partie.save(partie)
                 return redirect('jeu')
+            else:
+                form.add_error(None, "L'adresse email ou le mot de passe est incorrect.")
 
     else:
         form = ConnexionForm()
-    return render(request, 'index.html', {'form': form})
+    return render(request, 'index.html', {'form': form, 'bestUser': bestUser})
 
 
 def inscription(request):
@@ -35,9 +39,13 @@ def inscription(request):
             motDePasse = form.cleaned_data['motDePasse']
             city = form.cleaned_data['idVille_id'].id
             conf_mdp = form.cleaned_data['conf_mdp']
-            joueur = Joueur(email=email, nom=nom, prenom=prenom, motDePasse=motDePasse, niveau=1, idVille_id=city)
-            Joueur.save(joueur)
-            return redirect('accueil')
+
+            if motDePasse == conf_mdp:
+                joueur = Joueur(email=email, nom=nom, prenom=prenom, motDePasse=motDePasse, niveau=1, idVille_id=city)
+                Joueur.save(joueur)
+                return redirect('accueil')
+            else:
+                form.add_error(None, "Les 2 mots de passe ne correspondent pas")
     else:
         form = InscriptionForm()
     return render(request, 'inscription.html', {'form': form})

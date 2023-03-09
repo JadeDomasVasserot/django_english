@@ -1,5 +1,6 @@
 from django.core import validators
 from django import forms
+from django.core.exceptions import ValidationError
 
 from .models import Ville
 
@@ -27,16 +28,16 @@ class InscriptionForm(forms.Form):
 class ConnexionForm(forms.Form):
     email = forms.CharField(max_length=200, label="Email",
                             widget=forms.EmailInput(
-                            ), validators=[validators.validate_email])
+                            ), validators=[validators.validate_email], required=True)
     motDePasse = forms.CharField(max_length=20, label="Mot de passe",
                                  widget=forms.PasswordInput(
-                                 ))
+                                 ), required=True)
 
 
 class GameForm(forms.Form):
     preterit = forms.CharField(max_length=200, label="Prétérit",
                                widget=forms.TextInput(
-                               ))
+                               ), required=True)
     participePasse = forms.CharField(max_length=200, label="Participe Passé",
                                      widget=forms.TextInput(
-                                     ))
+                                     ), required=True)
