@@ -30,11 +30,10 @@
             </td>
           </tr>
           <tr>
-            <td>
-                {{ bestUser.nom }}, {{ bestUser.prenom }}
-            </td>
-            <td>
-                {{bestUser.niveau }} verbes
+           <td>
+               {% for joueur in bestUser %}
+                <p>{{ joueur.nom }} - {{ joueur.prenom }} avec {{joueur.niveau }} verbes</p>
+               {% endfor %}
             </td>
           </tr>
         </table>
