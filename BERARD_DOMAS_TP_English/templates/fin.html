@@ -19,7 +19,8 @@
             <br />
             <a href="/index">Déconnexion</a>
             <br />
-            <form method="post" action="/jeu/" class="center">
+            <form method="post" action="{% url 'jeu' partie2Id %}" class="center">
+                {% csrf_token %}
                 <table>
                     <tr>
                         <td colspan="3" style="text-align: center">
@@ -48,10 +49,7 @@
                     </tr>
                     <tr>
                         <td colspan="3" style="text-align: center">
-                            <form method="get" action="{% url 'jeu' partie2Id %}">
-                                {% csrf_token %}
-                                <input type="submit" value="Recommencer">
-                            </form>
+                            <input type="submit" value="Recommencer">
                         </td>
                     </tr>
                 </table>

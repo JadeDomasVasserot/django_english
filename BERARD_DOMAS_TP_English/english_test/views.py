@@ -87,7 +87,6 @@ def jeu(request, idPartie):
 
             # Vérification des conditions - and time_diff <= timedelta(seconds=60)
             if preterit == question.idVerbe.preterit and participePasse == question.idVerbe.participePasse and time_diff <= 60:
-                score += 1
                 # Modification de question
                 question.reponsePreterit = preterit
                 question.reponseParticipePasse = participePasse
